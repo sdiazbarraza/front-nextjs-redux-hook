@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/simp06/front-nextjs-redux-hook#readme",
   "dependencies": {
+    "antd": "^4.8.6",
     "axios": "^0.21.0",
     "next": "^10.0.3",
     "react": "^17.0.1",
