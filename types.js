@@ -1,0 +1,2 @@
+export const GET_DESTINOS = 'GET_DESTINOS';
+export const DESTINOS_ERROR = 'DESTINOS_ERROR';
