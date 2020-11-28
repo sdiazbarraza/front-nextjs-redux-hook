@@ -2,8 +2,8 @@ import {QUERY_COTIZACION_STARTED,QUERY_COTIZACION_FAILURE,QUERY_COTIZACION_SUCCE
 
 const initialState = {
     cotizaciones:[],
-    loading:false,
-    error:null
+    loadingCotizacion:false,
+    errorCotizacion:null
 }
 
 export default function cotizacionReducer(state = initialState, action){
@@ -12,20 +12,20 @@ export default function cotizacionReducer(state = initialState, action){
         case QUERY_COTIZACION_STARTED:
           return {
             ...state,
-            loading: true
+            loadingCotizacion: true
           };
         case QUERY_COTIZACION_SUCCESS:
           return {
             ...state,
-            loading: false,
-            error: null,
+            loadingCotizacion: false,
+            errorCotizacion: null,
             cotizaciones: [...state.cotizaciones, action.payload]
           };
         case QUERY_COTIZACION_FAILURE:
           return {
             ...state,
-            loading: false,
-            error: action.payload.error
+            loadingCotizacion: false,
+            errorCotizacion: action.payload.error
           };
         default:
           return state;

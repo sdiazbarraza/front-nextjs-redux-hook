@@ -8,7 +8,7 @@ const Destinos = () => {
   
     const dispatch = useDispatch()
     const destinoList = useSelector(state => state.destinoList)
-    const {loading, error, destinos} = destinoList
+    const {loadingDestino, errorDestino, destinos} = destinoList
     const [dataSource,setDataSource] =useState([]);
     const columns = [
         {
@@ -44,7 +44,7 @@ const Destinos = () => {
         dispatch(getDestinos())
        }, [dispatch])
     useEffect(()=>{
-        if(!loading){
+        if(!loadingDestino){
             let _datasource = [];
             destinos.map(destino => 
                     _datasource.push({
@@ -54,12 +54,12 @@ const Destinos = () => {
             );
             setDataSource(_datasource);
         }
-    },[loading])  
+    },[loadingDestino])  
  
 return (  
     <>
     <h3>Destinos disponibles</h3>
-    {loading ? "Loading..." : error ? error.message : 
+    {loadingDestino ? "Loading..." : errorDestino ? errorDestino.message : 
         <Table dataSource={dataSource} columns={columns} />
         }
     </>

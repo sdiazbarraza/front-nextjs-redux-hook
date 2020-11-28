@@ -10,11 +10,11 @@ const Cotizacion = () => {
     const dispatch = useDispatch();
     const { handleSubmit, control, errors, reset } = useForm();
     const cotizacionList = useSelector(state => state.cotizacionList)
-    const {loading, error, cotizaciones} = cotizacionList;
+    const {loadingCotizacion, errorCotizacion, cotizaciones} = cotizacionList;
+    const destinoList = useSelector(state => state.destinoList)
+    const {loadingDestino, errorDestino, destinos} = destinoList;
     const type = ["Student", "Developer", "other"];
-    const onFormLayoutChange = ({ size }) => {
-        setComponentSize(size);
-      };
+ 
       const onSubmit = (data) => {
         console.log(data)
         setTimeout(() => reset({

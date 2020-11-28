@@ -2,10 +2,11 @@ import {GET_DESTINOS,DESTINOS_ERROR } from '../types'
 
 const initialState = {
     destinos:[],
-    loading:true
+    loadingDestino:true,
+    errorDestino:null
 }
 
-export default function(state = initialState, action){
+export default function destinoReducer(state = initialState, action){
 
     switch(action.type){
 
@@ -13,13 +14,13 @@ export default function(state = initialState, action){
         return {
             ...state,
             destinos:action.payload,
-            loading:false
+            loadingDestino:false
 
         }
         case DESTINOS_ERROR:
             return{
-                loading: false, 
-                error: action.payload 
+                loadingDestino: false, 
+                errorDestino: action.payload 
             }
         default: return state
     }
