@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';  
 import {useSelector, useDispatch} from 'react-redux';  
-import {counterAction, increaseCount, decreaseCount} from "../actions/counter";  
 import {getDestinos} from "../actions/destinoAction"; 
 import {getKeyByValue} from "../utils"; 
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag } from 'antd';
 import 'antd/dist/antd.css';
 const Destinos = () => {  
   
