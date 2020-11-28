@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';  
 import {counterAction, increaseCount, decreaseCount} from "../actions/counter";  
 import {getDestinos} from "../actions/destinoAction"; 
+import {getKeyByValue} from "../utils"; 
 import { Table, Tag, Space } from 'antd';
 import 'antd/dist/antd.css';
 const Destinos = () => {  
@@ -46,7 +47,6 @@ const Destinos = () => {
     useEffect(()=>{
         if(!loading){
             let _datasource = [];
-            let _courriers = [];
             destinos.map(destino => 
                     _datasource.push({
                     key:destino.id,
@@ -56,7 +56,7 @@ const Destinos = () => {
             setDataSource(_datasource);
         }
     },[loading])  
-      function getKeyByValue(object, value) {   return Object.keys(object).filter(key => object[key] === value); }
+ 
 return (  
     <>
     <h3>Destinos disponibles</h3>
