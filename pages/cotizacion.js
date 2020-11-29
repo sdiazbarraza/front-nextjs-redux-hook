@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller } from "react-hook-form";
-import { inputField, SelectField, SwitchField } from "../utils/inputs";
+import { inputNumberField } from "../utils/inputs";
 import { Button, AutoComplete, Input } from "antd";
-import { queryCotizacion } from "../actions/cotizacionAction";
+import { queryCotizacion, emptyCotizacion } from "../actions/cotizacionAction";
 import { getDestinos } from "../actions/destinoAction";
-import { getKeyByValue } from "../utils";
+import TablaCotizaciones from "../components/tablaCotizacionesComponent";
 import 'antd/dist/antd.css';
 const Cotizacion = () => {
   const dispatch = useDispatch();
@@ -25,9 +25,17 @@ const Cotizacion = () => {
     params.destiny_id = destinoComuna;
     params.type_of_destiny = "domicilio";
     params.algorithm = 1;
-    params.algorithm_days = 1;
-    console.log(params);
+
     dispatch(queryCotizacion(params));
+    setTimeout(() => reset({
+      length: 1,
+      width: 1,
+      weight: 1,
+      origin_id: "",
+      destiny_id: "",
+    })
+
+      , 1000);
   };
   const onSearch = val => {
     let filtered = dataSource.filter(
@@ -36,7 +44,7 @@ const Cotizacion = () => {
         obj.value
           .toString()
           .toLowerCase()
-          .includes(val)
+          .includes(val.toLowerCase())
     );
     setOptionsComuna(filtered);
   };
@@ -48,8 +56,10 @@ const Cotizacion = () => {
   };
 
   useEffect(() => {
-    dispatch(getDestinos())
-  }, [dispatch])
+    dispatch(getDestinos());
+    dispatch(emptyCotizacion());
+  }, [dispatch]);
+
   useEffect(() => {
     if (!loadingDestino) {
       let _datasource = [];
@@ -61,103 +71,119 @@ const Cotizacion = () => {
       );
       setDataSource(_datasource);
     }
-  }, [loadingDestino])
+  }, [loadingDestino]);
+  useEffect(() => {
+    if (loadingCotizacion) {
+      dispatch(emptyCotizacion());
+    }
+  }, [loadingCotizacion]);
   return (
-    <form onSubmit={handleSubmit(onSubmitData)}>
-      <div className='input-group'>
-        <label className='label'>Largo</label>
-        <Controller
-          as={inputField("Largo")}
-          name='length'
-          control={control}
-          defaultValue=''
-          rules={{ required: true }}
-        />
-        {errors.length && (
-          <span className='error'>This field is required</span>
-        )}
-      </div>
-      <div className='input-group'>
-        <label className='label'>Alto</label>
-        <Controller
-          as={inputField("Alto")}
-          name='height'
-          control={control}
-          defaultValue=''
-          rules={{ required: true }}
-        />
-        {errors.height && (
-          <span className='error'>This field is required</span>
-        )}
-      </div>
-      <div className='input-group'>
-        <label className='label'>Ancho</label>
-        <Controller
-          as={inputField("Ancho")}
-          name='width'
-          control={control}
-          defaultValue=''
-          rules={{ required: true }}
-        />
-        {errors.width && (
-          <span className='error'>This field is required</span>
-        )}
-      </div>
-      <div className='input-group'>
-        <label className='label'>Peso</label>
-        <Controller
-          as={inputField("Peso")}
-          name='weight'
-          control={control}
-          defaultValue=''
-          rules={{ required: true }}
-        />
-        {errors.weight && (
-          <span className='error'>This field is required</span>
-        )}
-      </div>
-      <div className='input-group'>
-        <label className='label'>Origen</label>
-        <Controller
-          as={<AutoComplete
-            options={optionsComuna}
-            onSelect={(val, option) => onSelectOrigen(val, option)}
-            onSearch={onSearch}
-            defaultValue=''
-          >
-            <Input.Search size="medium" placeholder="Busca comuna de origen" />
-          </AutoComplete>}
-          name='origin_id'
-          control={control}
-          rules={{
-            required: true,
-          }}
-        />
-
-      </div>
-      <div className='input-group'>
-        <label className='label'>Destino</label>
-        <Controller
-          as={
-            <AutoComplete
+    <>
+      <section className="markdown">
+        <h1>Consulta tu cotización </h1>
+      </section>
+      <form onSubmit={handleSubmit(onSubmitData)}>
+        <div className='input-group'>
+          <label className='label'>Largo</label>
+          <Controller
+            as={inputNumberField("Largo")}
+            name='length'
+            control={control}
+            defaultValue='1'
+            rules={{ required: true, valueAsNumber: true }}
+          />
+          {errors.length && (
+            <span className='error'>This field is required</span>
+          )}
+        </div>
+        <div className='input-group'>
+          <label className='label'>Alto</label>
+          <Controller
+            as={inputNumberField("Alto")}
+            name='height'
+            control={control}
+            defaultValue='1'
+            rules={{ required: true, valueAsNumber: true }}
+          />
+          {errors.height && (
+            <span className='error'>This field is required</span>
+          )}
+        </div>
+        <div className='input-group'>
+          <label className='label'>Ancho</label>
+          <Controller
+            as={inputNumberField("Ancho")}
+            name='width'
+            control={control}
+            defaultValue='1'
+            rules={{ required: true, valueAsNumber: true }}
+          />
+          {errors.width && (
+            <span className='error'>This field is required</span>
+          )}
+        </div>
+        <div className='input-group'>
+          <label className='label'>Peso</label>
+          <Controller
+            as={inputNumberField("Peso")}
+            name='weight'
+            control={control}
+            defaultValue='1'
+            rules={{ required: true, valueAsNumber: true }}
+          />
+          {errors.weight && (
+            <span className='error'>This field is required</span>
+          )}
+        </div>
+        <div className='input-group'>
+          <label className='label'>Origen</label>
+          <Controller
+            as={<AutoComplete
               options={optionsComuna}
-              onSelect={(val, option) => onSelectDestino(val, option)}
+              onSelect={(val, option) => onSelectOrigen(val, option)}
               onSearch={onSearch}
               defaultValue=''
             >
-              <Input.Search size="medium" placeholder="Busca comuna de destino" />
+              <Input.Search size="medium" placeholder="Busca comuna de origen" />
             </AutoComplete>}
-          name='destiny_id'
-          control={control}
-          rules={{
-            required: true,
-          }}
-        />
-      </div>
-      <Button type='primary' htmlType='submit'>
-        Register
+            name='origin_id'
+            control={control}
+            rules={{
+              required: true,
+            }}
+          />
+
+        </div>
+        <div className='input-group'>
+          <label className='label'>Destino</label>
+          <Controller
+            as={
+              <AutoComplete
+                options={optionsComuna}
+                onSelect={(val, option) => onSelectDestino(val, option)}
+                onSearch={onSearch}
+                defaultValue=''
+              >
+                <Input.Search size="medium" placeholder="Busca comuna de destino" />
+              </AutoComplete>}
+            name='destiny_id'
+            control={control}
+            rules={{
+              required: true,
+            }}
+          />
+        </div>
+        <Button type='primary' htmlType='submit'>
+          Consulta
        </Button>
-    </form>
+      </form>
+      {
+        !loadingCotizacion ?
+          <TablaCotizaciones cotizaciones={cotizaciones} />
+          : null
+
+      }
+    </>
   )
 };
 

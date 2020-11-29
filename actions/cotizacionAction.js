@@ -33,3 +33,9 @@ export const queryCotizacion = (dataPost) => async dispatch => {
     }
 
 }
+
+export const emptyCotizacion = () => async dispatch => {
+    dispatch({
+        type: QUERY_COTIZACION_STARTED
+    })
+}

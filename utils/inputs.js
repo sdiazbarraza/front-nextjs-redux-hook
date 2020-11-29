@@ -1,11 +1,13 @@
 import React from "react";
-import { Input, Select, Switch } from "antd";
+import { InputNumber, Input, Select, Switch } from "antd";
 const { Option } = Select;
 
 export const inputField = (placeholder) => {
 	return <Input placeholder={placeholder} />;
 };
-
+export const inputNumberField = (placeholder) => {
+	return <InputNumber placeholder={placeholder} min={1} />;
+};
 export const SelectField = (defaultValue, values) => {
 	return (
 		<Select defaultValue={defaultValue} style={{ width: 120 }}>
@@ -21,5 +23,5 @@ export const SelectField = (defaultValue, values) => {
 };
 
 export const SwitchField = () => {
-	return <Switch defaultChecked style={{maxWidth:50}}/>;
+	return <Switch defaultChecked style={{ maxWidth: 50 }} />;
 };
